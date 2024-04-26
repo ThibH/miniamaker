@@ -1,0 +1,28 @@
+<article class="bg-white p-4 youtube-card"
+     :style="{ borderRadius: settings.sliders.borderRadius.value + 'px' }">
+    <div :style="{ padding: settings.sliders.thumbPadding.value + 'px' }"
+            class="thumb-padding flex flex-col gap-2 w-full max-w-lg rounded-lg">
+        <div class="relative">
+            <div :style="{ borderRadius: settings.sliders.borderRadius.value + 'px' }"
+                 class="overflow-clip thumbnail-cropper">
+                {% include 'components/thumbnail.html' %}
+            </div>
+            {% include 'components/duration.html' %}
+        </div>
+
+        <div class="flex gap-4 items-start">
+            {% include 'components/logo.html' %}
+
+            <div class="flex flex-col">
+                {% include 'components/title.html' %}
+                <div :style="{fontSize: settings.sliders.infosSize.value + 'px'}" class="infos">
+                    {% include 'components/channel_name.html' %}
+                    <div class="flex gap-1">
+                        {% include 'components/stats.html' %}
+                        {% include 'components/publication_date.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Récupération de vignette YouTube</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/htmx.org@latest"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/html-to-image@1.7.0/dist/html-to-image.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dist/css/style.css') }}">
+    <script src="https://cdn.lordicon.com/lordicon.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20,700,1,0&display=swap"
+          rel="stylesheet">
+
+</head>
+<body x-data="youtubeConfig"
+      x-init="init()"
+      class="min-h-screen">
+
+<main class="flex flex-col gap-2 items-center justify-center">
+    <div class="p-8 max-w-screen-2xl w-full">
+        <h1 class="text-3xl font-bold mb-6">YouTube Card Generator</h1>
+        <p>Based on an idea by <a class="link" href="https://twitter.com/BastiUi">@BastiUi</a>, challenge launched by <a class="link"
+                                                                                                                         href="https://twitter.com/benjamincode">@benjamincode</a>.
+        </p>
+
+        <div class="flex flex-col xl:flex-row gap-4">
+            <!-- YOUTUBE CARD -->
+            <section class="w-2/3 p-12 rounded checker-background flex flex-col gap-4 items-center justify-center">
+
+                <div class="relative h-full flex justify-center items-center xl:min-h-[40vh]" id="loading-placeholder">
+                    {% include 'components/card.html' %}
+                    <div
+                            class="w-full h-full flex absolute inset-0 justify-center items-center htmx-indicator">
+                        <lord-icon
+                                src="https://cdn.lordicon.com/jblamcti.json"
+                                trigger="loop"
+                                state="loop-cycle"
+                                colors="primary:#3a3347"
+                                style="width:250px;height:250px">
+                        </lord-icon>
+                    </div>
+                </div>
+
+                <div class="flex gap-2">
+                    <button id="download-button" class="btn-fill">
+                        <i class="material-icons">download</i>
+                        <span class="custom-loader hidden"></span>
+                        <span>Download</span>
+                    </button>
+                    <button id="copy-button" class="btn-primary">
+                        <i class="material-icons">content_copy</i>
+                        <span class="custom-loader hidden"></span>
+                        <span>Clipboard</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- SETTINGS -->
+            <aside class="p-8 w-1/3 flex flex-col gap-8 border border-gray-300 rounded shadow-lg divide-y divide-gray-200">
+                <div class="flex flex-col gap-2">
+                    <h2 class="text-3xl font-bold">Settings</h2>
+                    <div x-data="youtubeForm()">
+                        <label class="block text-sm font-medium mb-1" for="video_url">YouTube URL
+                            <input type="text"
+                                   hx-trigger="fetchCard from:body"
+                                   hx-post="/get-video-info"
+                                   hx-target=".youtube-card"
+                                   hx-swap="outerHTML"
+                                   hx-indicator="#loading-placeholder"
+                                   id="video_url"
+                                   name="video_url"
+                                   class="input"
+                                   x-model="videoUrl"
+                                   @input="validateAndTriggerRequest"
+                                   placeholder="https://www.youtube.com/watch?v=LamjAFnybo0">
+                            <small :class="showError || 'invisible'" class="text-red-500">Invalid YouTube URL</small>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-2 pt-4">
+                    <h2 class="text-xl font-bold">UI Elements</h2>
+                    <template x-for="(checkbox, index) in settings.checkboxes" :key="index">
+                        <label class="flex items-center space-x-3">
+                            <input type="checkbox" x-model="checkbox.value" class="form-checkbox h-5 w-5 text-blue-600">
+                            <span x-text="checkbox.label" class="text-gray-900"></span>
+                        </label>
+                    </template>
+                </div>
+                <div class="flex flex-col gap-2 pt-4">
+                    <div class="flex justify-between">
+                        <h2 class="text-xl font-bold">Styling</h2>
+                        <button class="btn-outline group" @click="resetAllSliders()">
+                            <i class="material-icons transition-transform duration-200 ease-in-out group-hover:-rotate-45">restart_alt</i>
+                        </button>
+                    </div>
+                    <template x-for="(slider, index) in settings.sliders" :key="index">
+                        <label class="flex items-center justify-between gap-2"
+                               x-show="isVisible(index)">
+                            <input :min="slider.min" :max="slider.max" :step="slider.step" x-model="slider.value" type="range" class="flex-1"
+                                   id="border-radius-slider"/>
+                            <div class=" ml-auto text-left space-x-2">
+                                <span x-text="slider.label" class="text-gray-900"></span>
+                                <span x-text="slider.value" class="text-gray-900"></span>
+                            </div>
+                            <button class="btn-outline group"
+                                    :class="slider.value === slider.default ? 'opacity-0 cursor-auto' : 'opacity-100'"
+                                    @click="slider.value = slider.default">
+                                <i class="material-icons transition-transform duration-200 ease-in-out group-hover:-rotate-45">restart_alt</i>
+                            </button>
+                        </label>
+                    </template>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <p class="text-sm">Made with ❤️ and a keyboard by <a class="link" href="https://twitter.com/ThibaultHoudon">@ThibaultHoudon</a>. Source code available on
+        Github.</p>
+
+</main>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const copyButton = document.getElementById('copy-button');
+        const downloadButton = document.getElementById('download-button');
+        const attributesToRemove = [
+            ".youtube-card",
+            ".thumbnail-cropper",
+            ".thumb-padding",
+            ".infos",
+            ".title",
+            ".logo",
+        ];
+
+        function captureImage() {
+            const node = document.querySelector('.youtube-card');
+            return htmlToImage.toPng(node, {
+                canvasWidth: node.offsetWidth,
+                canvasHeight: node.offsetHeight,
+                quality: 1,
+            });
+        }
+
+        function toggleLoader(button) {
+            button.querySelector('.custom-loader').classList.toggle('hidden');
+            button.querySelector('i').classList.toggle('hidden');
+        }
+
+        copyButton.addEventListener('click', function (e) {
+            const originalAttributes = removeAttributes();
+            toggleLoader(copyButton);
+
+            setTimeout(() => {
+                captureImage().then(function (dataUrl) {
+                    const blob = dataUrlToBlob(dataUrl);
+                    const clipboardItem = new ClipboardItem({'image/png': blob});
+                    navigator.clipboard.write([clipboardItem])
+                        .then(() => {
+                            const buttonInnerSpan = copyButton.querySelector("span");
+                            buttonInnerSpan.innerText = 'Copied !';
+                            restoreAttributes(originalAttributes);
+                            toggleLoader(copyButton);
+                            setTimeout(() => {
+                                buttonInnerSpan.innerText = 'Clipboard';
+                            }, 2000);
+                        })
+                        .catch(err => console.error('Failed to copy: ', err));
+                }).catch(function (error) {
+                    console.error('Could not capture image:', error);
+                });
+            }, 250); // Attendre 1000 ms (1 seconde)
+        });
+
+        downloadButton.addEventListener('click', function (e) {
+            const originalAttributes = removeAttributes();
+            toggleLoader(downloadButton);
+            setTimeout(() => {
+                captureImage().then(function (dataUrl) {
+                    const link = document.createElement('a');
+                    link.download = 'youtube-card.png'; // Nom du fichier
+                    link.href = dataUrl;
+                    link.click();
+                    link.remove();
+                }).catch(function (error) {
+                    console.error('Could not capture image:', error);
+                }).then(() => {
+                    toggleLoader(downloadButton);
+                    restoreAttributes(originalAttributes);
+                })
+            }, 250);
+        });
+
+        function dataUrlToBlob(dataUrl) {
+            const parts = dataUrl.split(';base64,');
+            const contentType = parts[0].split(':')[1];
+            const raw = window.atob(parts[1]);
+            const rawLength = raw.length;
+            const uInt8Array = new Uint8Array(rawLength);
+
+            for (let i = 0; i < rawLength; ++i) {
+                uInt8Array[i] = raw.charCodeAt(i);
+            }
+
+            return new Blob([uInt8Array], {type: contentType});
+        }
+
+        function removeAttributes() {
+            const originalAttributes = [];
+            attributesToRemove.forEach(item => {
+                const element = document.querySelector(item);
+                if (element) {
+                    originalAttributes.push({
+                        selector: item,
+                        value: element.getAttribute(":style")
+                    });
+                    const originalValue = element.getAttribute("style");
+                    element.removeAttribute(":style");
+                    setTimeout(() => {
+                        element.setAttribute("style", originalValue);
+                    }, 0);
+                }
+            });
+            return originalAttributes;
+        }
+
+
+        function restoreAttributes(originalAttributes) {
+            originalAttributes.forEach(item => {
+                const element = document.querySelector(item.selector);
+                if (element) {
+                    element.setAttribute(":style", item.value);
+                }
+            });
+        }
+
+    });
+
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('youtubeConfig', () => ({
+            dark: false,
+            settings: {
+                sliders: {
+                    borderRadius: {label: 'Border Radius', default: 12, min: 0, max: 24, step: 1},
+                    fontSize: {label: 'Title Size', default: 20, min: 16, max: 48, step: 4},
+                    infosSize: {
+                        label: 'Info Size', default: 16, min: 12, max: 24, step: 1,
+                        visibility: ['showViewCount', 'showPublicationDate', 'showChannelName']
+                    },
+                    logoSize: {label: 'Logo Size', default: 4, min: 2, max: 6, step: 1, visibility: ['showLogo']},
+                    thumbPadding: {label: 'Card Padding', default: 12, min: 2, max: 24, step: 1}
+                },
+                checkboxes: {
+                    showLogo: {label: 'Channel logo', value: true},
+                    showChannelName: {label: 'Channel name', value: true},
+                    showPublicationDate: {label: 'Publication date', value: true},
+                    showDuration: {label: 'Duration', value: true},
+                    showViewCount: {label: 'View count', value: true}
+                }
+            },
+            isVisible(sliderKey) {
+                const slider = this.settings.sliders[sliderKey];
+                if (!slider.visibility) return true;
+                return slider.visibility.some(condition => this.settings.checkboxes[condition].value);
+            },
+            resetAllSliders() {
+                Object.keys(this.settings.sliders).forEach(key => {
+                    this.settings.sliders[key].value = this.settings.sliders[key].default;
+                });
+            },
+            init() {
+                this.loadParams();
+                this.updateUrl();
+                this.$watch('settings', () => {
+                    this.updateUrl(this.settings);
+                });
+            },
+            loadParams() {
+                const params = new URLSearchParams(window.location.search);
+
+                // Charger les valeurs pour les sliders avec valeurs par défaut
+                Object.keys(this.settings.sliders).forEach(key => {
+                    const slider = this.settings.sliders[key];
+                    const paramValue = params.get(key);
+                    this.settings.sliders[key].value = paramValue ? Number(paramValue) : slider.default || slider.min;
+                });
+
+                // Charger les valeurs pour les checkboxes avec valeurs par défaut
+                Object.keys(this.settings.checkboxes).forEach(key => {
+                    const checkbox = this.settings.checkboxes[key];
+                    const paramValue = params.get(key);
+                    this.settings.checkboxes[key].value = paramValue !== null ? paramValue === '1' : checkbox.value;
+                });
+            },
+
+            updateUrl() {
+                const params = new URLSearchParams();
+                Object.entries(this.settings.sliders).forEach(([key, param]) => {
+                    params.set(key, param.value.toString());
+                });
+                // Mettre à jour l'URL pour les checkboxes
+                Object.entries(this.settings.checkboxes).forEach(([key, {value}]) => {
+                    params.set(key, value ? '1' : '0');
+                });
+                window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
+            },
+        }));
+    });
+
+    function youtubeForm() {
+        return {
+            videoUrl: '',
+            showError: '',
+            validateAndTriggerRequest(event) {
+                const regex = /^(https?:\/\/)?(www\.)?(youtube.com\/watch\?v=|youtu.be\/)[\w-]+$/;
+                if (!this.videoUrl.match(regex)) {
+                    this.showError = true;
+                    return; // Ne pas déclencher la requête si l'URL n'est pas valide
+                }
+                this.showError = false; // Effacer les messages d'erreur précédents
+                htmx.trigger(event.target, 'fetchCard');  // Déclencher manuellement l'événement
+            }
+        };
+    }
+
+</script>
+
+
+</body>
+</html>

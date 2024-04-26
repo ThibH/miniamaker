@@ -1,0 +1,132 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer base {
+    :root {
+        /* PRIMARIES */
+        --primary: 234 122 244;
+        --secondary: 98 0 179;
+        --ternary: 166 72 140;
+
+        /* NEUTRALS */
+        --neutral-100: 250 250 250;
+        --neutral-500: 230 230 230;
+        --neutral-900: 163 163 163;
+
+        /* GRAYS */
+        --gray-100: 255 255 255;
+        --gray-500: 128 128 128;
+        --gray-900: 0 0 0;
+
+        /* TEXTS */
+        --text-100: 87 87 87;
+        --text-500: 65 65 65;
+        --text-900: 32 32 32;
+
+        /* SEMANTICS */
+        --success: 74 222 128;
+        --warning: 234 183 54;
+        --danger: 216 53 53;
+    }
+
+    .dark {
+        /* PRIMARIES */
+        --primary: 234 122 244;
+        --secondary: 98 0 179;
+        --ternary: 166 72 140;
+
+        /* NEUTRALS */
+        --neutral-100: 41 41 61;
+        --neutral-500: 31 31 46;
+        --neutral-900: 9 1 15;
+
+        /* GRAYS */
+        --gray-100: 255 255 255;
+        --gray-500: 128 128 128;
+        --gray-900: 0 0 0;
+
+        /* TEXTS */
+        --text-100: 190 195 207;
+        --text-500: 207 207 207;
+        --text-900: 252 252 252;
+
+        /* SEMANTICS */
+        --success: 74 222 128;
+        --warning: 234 183 54;
+        --danger: 216 53 53;
+    }
+
+    @font-face {
+        font-family: 'Poppins', sans-serif;
+        font-display: swap;
+    }
+}
+
+@layer components {
+    .input {
+        @apply border border-gray-300 rounded-md shadow-sm px-4 py-2 w-full;
+    }
+
+    .btn {
+        @apply text-white font-bold py-1 px-2 rounded flex gap-2 items-center transition-colors;
+    }
+
+    .btn-primary {
+        @apply py-2 px-4 btn bg-blue-500 hover:bg-blue-400;
+    }
+
+    .btn-fill {
+        @apply py-2 px-4 btn bg-gray-900 hover:bg-gray-700;
+    }
+
+    .btn-outline {
+        @apply btn border text-gray-700 border-gray-200 hover:bg-gray-100;
+    }
+
+    .link {
+        @apply text-red-400;
+    }
+}
+
+.checker-background {
+    background: #cccccc;
+    background-image: linear-gradient(45deg, rgba(0, 0, 0, 0.15) 25%, transparent 0, transparent 75%, rgba(0, 0, 0, 0.15) 0), linear-gradient(45deg, rgba(0, 0, 0, 0.15) 25%, transparent 0, transparent 75%, rgba(0, 0, 0, 0.15) 0);
+    background-position: 0 0, 25px 25px;
+    background-size: 50px 50px;
+}
+
+.htmx-indicator {
+    opacity: 0;
+    transition: opacity 500ms ease-in;
+}
+
+.htmx-request .htmx-indicator {
+    opacity: 1
+}
+
+.htmx-request.htmx-indicator {
+    opacity: 1
+}
+
+.htmx-request .youtube-card {
+    opacity: .75;
+    transition: opacity 250ms ease-in-out;
+}
+
+.custom-loader {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: radial-gradient(farthest-side, #ffffff 94%, #0000) top/4px 4px no-repeat,
+    conic-gradient(#0000 50%, #ffffff);
+    -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 4px), #000 0);
+    animation: s3 0.75s infinite linear;
+}
+
+@keyframes s3 {
+    100% {
+        transform: rotate(1turn)
+    }
+}

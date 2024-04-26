@@ -1,0 +1,9 @@
+<img class="rounded-full h-16 w-16 logo"
+     :style="{
+        width: settings.sliders.logoSize.value + 'em',
+        height: settings.sliders.logoSize.value + 'em',
+     }"
+     x-show="settings.checkboxes.showLogo.value"
+     x-transition
+     src="{{ channel_thumbnail_url }}"
+     alt="Logo Channel">
