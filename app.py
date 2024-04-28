@@ -1,3 +1,4 @@
+import base64
 import os
 from flask import Flask, render_template, request, jsonify, make_response
 import requests
@@ -70,8 +71,11 @@ def parse_video_info(video_info: dict, language: str) -> dict:
     content_details = video_info['contentDetails']
     statistics = video_info['statistics']
 
+    image = image_to_base64(select_thumbnail(snippet.get('thumbnails', {})))
+    print(image)
+
     return {
-        "video_thumbnail_url": select_thumbnail(snippet.get('thumbnails', {})),
+        "video_thumbnail_url": image,
         "title": snippet.get('title', "Title not found"),
         "channel_title": snippet.get('channelTitle', "Channel not found"),
         "view_count": statistics.get('viewCount', "0"),
@@ -115,6 +119,11 @@ def extract_video_id(url: str) -> str:
     parsed_url = urlparse(url)
     video_id = parse_qs(parsed_url.query).get('v')
     return video_id[0] if video_id else None
+
+
+def image_to_base64(url):
+    response = requests.get(url)
+    return base64.b64encode(response.content).decode('utf-8')
 
 
 if __name__ == '__main__':
