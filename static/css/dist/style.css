@@ -1262,6 +1262,10 @@ select {
   padding-bottom: 0.5rem;
 }
 
+.pl-6 {
+  padding-left: 1.5rem;
+}
+
 .pt-4 {
   padding-top: 1rem;
 }
