@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @layer base {
     :root {
         /* PRIMARIES */
@@ -24,11 +23,6 @@
         --text-100: 87 87 87;
         --text-500: 65 65 65;
         --text-900: 32 32 32;
-
-        /* SEMANTICS */
-        --success: 74 222 128;
-        --warning: 234 183 54;
-        --danger: 216 53 53;
     }
 
     .dark {
@@ -51,16 +45,6 @@
         --text-100: 190 195 207;
         --text-500: 207 207 207;
         --text-900: 252 252 252;
-
-        /* SEMANTICS */
-        --success: 74 222 128;
-        --warning: 234 183 54;
-        --danger: 216 53 53;
-    }
-
-    @font-face {
-        font-family: 'Poppins', sans-serif;
-        font-display: swap;
     }
 }
 
@@ -70,23 +54,23 @@
     }
 
     .btn {
-        @apply text-white font-bold py-1 px-2 rounded flex gap-2 items-center transition-colors;
+        @apply flex items-center justify-center gap-2 rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition;
     }
 
     .btn-primary {
-        @apply py-2 px-4 btn bg-blue-500 hover:bg-blue-400;
+        @apply btn;
     }
 
     .btn-fill {
-        @apply py-2 px-4 btn bg-gray-900 hover:bg-gray-700;
+        @apply btn bg-white text-gray-700 border border-gray-200 hover:bg-gray-100;
     }
 
     .btn-outline {
-        @apply btn border text-gray-700 border-gray-200 hover:bg-gray-100;
+        @apply border text-gray-700 border-gray-200 hover:bg-gray-100 rounded-md p-1 flex items-center justify-center;
     }
 
     .link {
-        @apply text-red-400;
+        @apply text-red-600 underline underline-offset-2 decoration-2 decoration-red-300;
     }
 }
 
@@ -130,3 +114,4 @@
         transform: rotate(1turn)
     }
 }
+
