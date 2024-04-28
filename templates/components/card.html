@@ -1,5 +1,6 @@
-<article class="bg-white p-4 youtube-card"
-     :style="{ borderRadius: settings.sliders.borderRadius.value + 'px' }">
+<article class="p-4 youtube-card"
+         :class="settings.darkMode ? 'bg-gray-900' : 'bg-white'"
+     :style="{ borderRadius: (parseInt(settings.sliders.borderRadius.value) + 8) + 'px' }">
     <div :style="{ padding: settings.sliders.thumbPadding.value + 'px' }"
             class="thumb-padding flex flex-col gap-2 w-full max-w-lg rounded-lg">
         <div class="relative">
@@ -18,7 +19,7 @@
                 <div :style="{fontSize: settings.sliders.infosSize.value + 'px'}" class="infos">
                     {% include 'components/channel_name.html' %}
                     <div class="flex gap-1">
-                        {% include 'components/stats.html' %}
+                        {% include 'components/view_count.html' %}
                         {% include 'components/publication_date.html' %}
                     </div>
                 </div>

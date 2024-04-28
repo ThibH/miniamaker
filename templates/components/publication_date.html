@@ -1,4 +1,5 @@
-<p
-   x-show="settings.checkboxes.showPublicationDate.value"
-   x-transition class="text-gray-700">
+<p x-show="settings.checkboxes.showPublicationDate.value"
+   x-transition
+   class="publication-date whitespace-nowrap"
+   :class="settings.darkMode ? 'text-gray-300' : 'text-gray-600'">
     <span x-show="settings.checkboxes.showViewCount.value">• </span>{{ published_at }}</p>

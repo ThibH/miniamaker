@@ -1,2 +1,3 @@
 <h2 :style="{fontSize: settings.sliders.fontSize.value + 'px'}"
-    class="font-bold whitespace-break-spaces title">{{ title }}</h2>
+    class="font-bold whitespace-break-spaces title"
+    :class="settings.darkMode ? 'text-gray-100' : 'text-gray-900'">{{ title }}</h2>

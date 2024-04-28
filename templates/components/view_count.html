@@ -1,0 +1,6 @@
+<p x-show="settings.checkboxes.showViewCount.value"
+   x-transition
+   x-text="formatViewCount({{ view_count }})"
+   class="view-count"
+   :class="settings.darkMode ? 'text-gray-300' : 'text-gray-600'">
+</p>

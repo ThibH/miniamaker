@@ -1,7 +1,8 @@
 <img class="rounded-full h-16 w-16 logo"
      :style="{
-        width: settings.sliders.logoSize.value + 'em',
-        height: settings.sliders.logoSize.value + 'em',
+        width: settings.sliders.logoSize.value + 'px',
+        height: settings.sliders.logoSize.value + 'px',
+        transform: 'translateY(' + settings.sliders.logoYOffset.value + 'px)',
      }"
      x-show="settings.checkboxes.showLogo.value"
      x-transition
