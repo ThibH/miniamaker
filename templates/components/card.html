@@ -5,8 +5,11 @@
          class="thumb-padding flex flex-col gap-2 w-full max-w-lg rounded-lg">
         <div class="relative">
             <div :style="{ borderRadius: settings.sliders.borderRadius.value + 'px' }"
-                 class="overflow-clip thumbnail-cropper">
+                 class="relative overflow-clip thumbnail-cropper h-full">
                 {% include 'components/thumbnail.html' %}
+                <div class="absolute bottom-0 left-0 w-full h-1"> x-show="settings.sliders.progressBar.value > 0">
+                    <div class="absolute top-0 left-0 h-full bg-red-500" :style="{ width: settings.sliders.progressBar.value + '%' }"></div>
+                </div>
             </div>
             {% include 'components/duration.html' %}
         </div>

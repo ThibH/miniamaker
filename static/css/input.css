@@ -76,7 +76,7 @@
 
 @layer components {
     .input {
-        @apply border border-gray-300 rounded-md shadow-sm px-4 py-2 w-full;
+        @apply border border-gray-300 rounded-md shadow-sm px-4 py-2 w-full text-typo-900 dark:text-gray-800;
     }
 
     .btn {
@@ -88,15 +88,15 @@
     }
 
     .btn-fill {
-        @apply btn bg-white text-gray-700 border border-gray-200 hover:bg-gray-100;
+        @apply btn bg-white text-typo-900 dark:text-gray-900 border border-gray-200 hover:bg-gray-100;
     }
 
     .btn-outline {
-        @apply border text-gray-700 border-gray-200 hover:bg-gray-100 rounded-md p-1 flex items-center justify-center;
+        @apply border text-typo-900 border-gray-200 dark:border-gray-600 dark:hover:bg-gray-700 hover:bg-gray-100 rounded-md p-1 flex items-center justify-center;
     }
 
     .link {
-        @apply text-red-600 underline underline-offset-2 decoration-2 decoration-red-300;
+        @apply dark:text-red-400 text-red-600 underline underline-offset-2 decoration-2 decoration-red-300;
     }
 }
 

@@ -171,6 +171,7 @@ function simplifyNumber(value) {
 document.addEventListener('alpine:init', () => {
     Alpine.data('youtubeConfig', () => ({
         showError: '',
+        darkMode: true,
         exportSizeText: 'Export size: ',
         settings: {
             darkMode: true,
@@ -185,8 +186,9 @@ document.addEventListener('alpine:init', () => {
                 },
                 logoSize: {label: 'Logo Size', default: 64, min: 24, max: 128, step: 4, visibility: ['showLogo']},
                 logoYOffset: {label: 'Logo Y Offset', default: 0, min: 0, max: 48, step: 1, visibility: ['showLogo']},
+                progressBar: {label: 'Progress', default: 75, min: 0, max: 100, step: 1},
             },
-            exportSize: {label: 'Size', default: 1, min: 1, max: 5, step: .25},
+            exportSize: {label: 'Size', default: 1.00, min: 1.00, max: 5.00, step: .25},
             checkboxes: {
                 showLogo: {label: 'Channel logo', value: true},
                 showChannelName: {label: 'Channel name', value: true},
@@ -253,6 +255,10 @@ document.addEventListener('alpine:init', () => {
                 this.updateUrl(this.settings);
             });
         },
+        toggleAppearance() {
+            this.darkMode = !this.darkMode;
+            this.updateUrl();
+        },
         loadParams() {
             const params = new URLSearchParams(window.location.search);
 
@@ -273,6 +279,7 @@ document.addEventListener('alpine:init', () => {
             this.settings.darkMode = params.get('dark_mode') === '1';
             this.settings.language = params.get('language') || 'en';
             this.settings.exportSize.value = params.get('export_size') || 1;
+            this.darkMode = params.get('dark_mode_global') === '1';
         },
         updateUrl() {
             const params = new URLSearchParams();
@@ -288,6 +295,7 @@ document.addEventListener('alpine:init', () => {
             params.set('dark_mode', this.settings.darkMode ? '1' : '0');
             params.set('language', this.settings.language);
             params.set('export_size', this.settings.exportSize.value);
+            params.set('dark_mode_global', this.darkMode ? '1' : '0');
 
             window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
         },
