@@ -66,7 +66,7 @@
 </script>
 
 <div class="dark:bg-neutral-900 flex flex-col 2xl:flex-row items-stretch justify-center"
-     :class="darkMode || 'dark'"
+     :class="darkMode && 'dark'"
      id="main-section">
     <header class="flex justify-center bg-neutral-100 flex-col items-center py-2 md:py-10 gap-8">
         <a href="/">
@@ -80,8 +80,8 @@
         <div class="mt-2 absolute top-0 right-2 md:p-2 flex gap-2 items-center">
 
             <button @click="toggleAppearance" class="btn-outline">
-                <i x-show="!darkMode" class="material-icons transition-transform duration-200 ease-in-out group-hover:-rotate-45">light_mode</i>
-                <i x-show="darkMode" class="material-icons transition-transform duration-200 ease-in-out group-hover:-rotate-45">dark_mode</i>
+                <i x-show="darkMode" class="material-icons transition-transform duration-200 ease-in-out group-hover:-rotate-45">light_mode</i>
+                <i x-show="!darkMode" class="material-icons transition-transform duration-200 ease-in-out group-hover:-rotate-45">dark_mode</i>
             </button>
 
             <label for="language" class="block text-sm font-medium leading-6 text-gray-900 sr-only">Language</label>
