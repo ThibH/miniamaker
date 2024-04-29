@@ -56,22 +56,22 @@
     })(window, document, 'dataLayer', 'ddea9094-6d09-49a5-9eee-8ca4a1ed4a6b');
 </script>
 
-<div class="flex bg-white flex-col items-center py-10 gap-8">
+<div class="flex bg-white flex-col items-center py-2 md:py-10 gap-8">
     <a href="/">
-        <h1 class="text-5xl text-center font-bold">YouTube Card Generator</h1>
+        <h1 class="text-2xl xl:text-5xl text-center font-bold">YouTube Card Generator</h1>
     </a>
-    <p class="text-sm w-5/6">Made with ❤️ and a keyboard by <a class="link" href="https://twitter.com/ThibaultHoudon">@ThibaultHoudon</a>. Source code available
-        on
-        <a class="link" href="https://github.com/ThibH/miniamaker">Github</a>.</p>
+    <div class="hidden md:inline">
+        {% include 'components/credits.html' %}
+    </div>
 </div>
 <main class="flex flex-col gap-2 items-center min-h-screen justify-center w-full h-full bg-neutral-100 shadow-lg relative">
 
-    <div class="absolute top-0 right-2 p-2">
+    <div class="absolute top-0 right-2 md:p-2">
         <label for="language" class="block text-sm font-medium leading-6 text-gray-900 sr-only">Language</label>
         <select id="language" name="language"
                 x-model="settings.language"
                 @change="changeLanguage()"
-                class="mt-2 block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                class="mt-2 text-sm block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
             <option value="en">EN</option>
             <option value="fr">FR</option>
             <option value="de">DE</option>
@@ -80,12 +80,13 @@
         </select>
     </div>
 
-    <div class="p-8 max-w-screen-2xl w-full flex flex-col gap-2 items-center justify-center min-h-[85vh]">
-        <p class="self-start">Based on an idea by <a class="link" href="https://twitter.com/BastiUi">@BastiUi</a>, challenged by <a class="link"
-                                                                                                                                    href="https://twitter.com/benjamincode">@benjamincode</a>.
+    <div class="p-2 md:p-8 max-w-screen-2xl w-full flex flex-col gap-2 items-center justify-center min-h-[85vh]">
+        <p class="hidden md:inline self-start">Based on an idea by <a class="link" href="https://twitter.com/BastiUi">@BastiUi</a>, challenged by <a
+                class="link"
+                href="https://twitter.com/benjamincode">@benjamincode</a>.
         </p>
 
-        <div class="flex flex-col w-full xl:flex-row gap-4 flex-1">
+        <div class="pt-12 md:pt-0 flex flex-col w-full xl:flex-row gap-4 flex-1">
             <!-- YOUTUBE CARD -->
             <section class="flex-1 p-2 xl:p-12 rounded checker-background flex flex-col gap-4 items-center justify-center">
 
@@ -109,7 +110,7 @@
                         <span class="custom-loader hidden"></span>
                         <span>Download</span>
                     </button>
-                    <button id="copy-button" class="btn-primary group">
+                    <button id="copy-button" class="hidden md:flex btn-primary group">
                         <i class="material-icons text-sm group-hover:animate-ping">content_copy</i>
                         <span class="custom-loader hidden"></span>
                         <span>Clipboard</span>
@@ -118,9 +119,9 @@
             </section>
 
             <!-- SETTINGS -->
-            <aside class="p-8 flex flex-col gap-8 border border-gray-100 rounded shadow-lg divide-y divide-gray-200">
+            <aside class="p-2 md:p-8 flex flex-col gap-2 md:gap-8 border border-gray-100 rounded shadow-lg divide-y divide-gray-200">
                 <div class="flex flex-col gap-2">
-                    <h2 class="text-3xl font-bold">Settings</h2>
+                    <h2 class="hidden md:inline text-3xl font-bold">Settings</h2>
                     <label class="block text-sm font-medium mb-1" for="video_url">YouTube URL
                         <input type="text"
                                hx-trigger="fetchCard from:body"
@@ -140,7 +141,7 @@
                 </div>
 
                 <div class="flex flex-col pt-4">
-                    <h2 class="text-xl font-bold">UI Elements</h2>
+                    <h2 class="hidden md:inline text-xl font-bold">UI Elements</h2>
                     <template x-for="(checkbox, index) in settings.checkboxes" :key="index">
                         <label x-show="isVisibleCheckbox(index)"
                                :class="checkbox.style"
@@ -216,6 +217,10 @@
         </div>
     </div>
 </main>
+
+<footer class="xl:hidden p-4">
+    {% include 'components/credits.html' %}
+</footer>
 
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
