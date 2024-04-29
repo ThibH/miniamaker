@@ -171,7 +171,7 @@ function simplifyNumber(value) {
 document.addEventListener('alpine:init', () => {
     Alpine.data('youtubeConfig', () => ({
         showError: '',
-        darkMode: true,
+        darkMode: false,
         exportSizeText: 'Export size: ',
         settings: {
             darkMode: true,
