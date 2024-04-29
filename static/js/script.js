@@ -170,7 +170,7 @@ document.addEventListener('alpine:init', () => {
                     label: 'Info Size', default: 16, min: 12, max: 24, step: 1,
                     visibility: ['showViewCount', 'showPublicationDate', 'showChannelName']
                 },
-                logoSize: {label: 'Logo Size', default: 96, min: 24, max: 128, step: 4, visibility: ['showLogo']},
+                logoSize: {label: 'Logo Size', default: 64, min: 24, max: 128, step: 4, visibility: ['showLogo']},
                 logoYOffset: {label: 'Logo Y Offset', default: 0, min: 0, max: 48, step: 1, visibility: ['showLogo']},
             },
             exportSize: {label: 'Size', default: 1, min: 1, max: 5, step: .25},
