@@ -1,12 +1,15 @@
 import base64
 import os
+import random
+
 from flask import Flask, render_template, request, jsonify, make_response
 import requests
 from urllib.parse import urlparse, parse_qs
 
 from flask import Response
 from isodate import parse_duration
-from datetime import timedelta
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 import arrow
 
 from dotenv import load_dotenv
@@ -15,6 +18,11 @@ load_dotenv()
 
 YOUTUBE_API_KEY = os.getenv('YOUTUBE_API_KEY')
 app = Flask(__name__)
+
+limiter = Limiter(
+    key_func=get_remote_address,
+    default_limits=["200 per day", "20 per hour"]
+)
 
 
 def get_video_id_from_request() -> str:
@@ -35,6 +43,7 @@ def index() -> str:
 
 
 @app.route('/get-video-info', methods=['POST'])
+@limiter.limit
 def get_video_info() -> Response | str:
     """Endpoint to get video information from YouTube API."""
     video_url = request.form.get('video_url')
@@ -72,7 +81,6 @@ def parse_video_info(video_info: dict, language: str) -> dict:
     statistics = video_info['statistics']
 
     image = image_to_base64(select_thumbnail(snippet.get('thumbnails', {})))
-    print(image)
 
     return {
         "video_thumbnail_url": image,
