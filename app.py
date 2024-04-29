@@ -71,14 +71,14 @@ def parse_video_info(video_info: dict, language: str) -> dict:
     snippet = video_info['snippet']
     content_details = video_info['contentDetails']
     statistics = video_info['statistics']
-
+    view_count = f"{int(statistics.get('viewCount', 0)):,}"
     image = image_to_base64(select_thumbnail(snippet.get('thumbnails', {})))
 
     return {
         "video_thumbnail_url": image,
         "title": snippet.get('title', "Title not found"),
         "channel_title": snippet.get('channelTitle', "Channel not found"),
-        "view_count": statistics.get('viewCount', "0"),
+        "view_count": view_count,
         "channel_thumbnail_url": get_channel_thumbnail_url(snippet.get('channelId')),
         "video_duration": format_duration(content_details.get('duration')),
         "published_at": arrow.get(snippet.get('publishedAt')).humanize(locale=language)

@@ -193,7 +193,6 @@ document.addEventListener('alpine:init', () => {
                 showPublicationDate: {label: 'Publication date', value: true},
                 showDuration: {label: 'Duration', value: true},
                 showViewCount: {label: 'View count', value: true},
-                showViewCountComma: {label: 'Add comma', value: true, visibility: ['showViewCount'], style: "pl-6"},
                 showSimplifyViewCount: {label: 'Simplify number', value: false, visibility: ['showViewCount'], style: "pl-6"},
             }
         },
@@ -230,16 +229,10 @@ document.addEventListener('alpine:init', () => {
             return Object.keys(this.settings.sliders).every(key => this.settings.sliders[key].value === this.settings.sliders[key].default);
         },
         formatViewCount(viewCount) {
-            let formattedCount = viewCount;
-
-            if (this.settings.checkboxes.showViewCountComma.value) {
-                formattedCount = formattedCount.toLocaleString(); // avec virgules
-            }
-
             if (this.settings.checkboxes.showSimplifyViewCount.value) {
-                formattedCount = simplifyNumber(formattedCount); // avec arrondissement
+                return simplifyNumber(viewCount);
             }
-            return formattedCount;
+            return viewCount;
         },
         formatExportSize() {
             const node = document.querySelector('.youtube-card');
