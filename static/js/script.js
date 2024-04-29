@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }).catch(function (error) {
                 console.error('Could not capture image:', error);
             });
-        }, 250); // Attendre 1000 ms (1 seconde)
+        }, 500);
     });
 
     downloadButton.addEventListener('click', function (e) {
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 toggleLoader(downloadButton);
                 restoreAttributes(originalAttributes);
             })
-        }, 250);
+        }, 500);
     });
 
     function dataUrlToBlob(dataUrl) {
