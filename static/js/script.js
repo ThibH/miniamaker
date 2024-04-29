@@ -54,12 +54,14 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     downloadButton.addEventListener('click', function (e) {
+        const channelName = document.querySelector('.channel-title').innerText;
+        const title = slugify(document.querySelector('.title').innerText);
         const originalAttributes = removeAttributes();
         toggleLoader(downloadButton);
         setTimeout(() => {
             captureImage().then(function (dataUrl) {
                 const link = document.createElement('a');
-                link.download = 'youtube-card.png'; // Nom du fichier
+                link.download = `${channelName}-${title}.png`; // Nom du fichier
                 link.href = dataUrl;
                 link.click();
                 link.remove();
@@ -85,6 +87,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
         return new Blob([uInt8Array], {type: contentType});
     }
+
+    function slugify(sentence) {
+        return sentence
+            // Convert the sentence to lowercase
+            .toLowerCase()
+            // Replace non-alphanumeric characters with hyphens
+            .replace(/[^a-z0-9]+/g, '-')
+            // Remove hyphens from the start and end of the resulting string
+            .replace(/^-+|-+$/g, '');
+    }
+
 
     function removeAttributes() {
         const originalAttributes = [];
