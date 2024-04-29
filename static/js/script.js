@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
         ".publication-date",
         ".view-count",
         ".channel-title",
+        ".progress-bar",
     ];
 
     function captureImage() {
