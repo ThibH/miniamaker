@@ -29,7 +29,6 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dist/style.css') }}">
     <script src="https://cdn.lordicon.com/lordicon.js"></script>
-
 </head>
 <body x-data="youtubeConfig"
       class="flex flex-col 2xl:flex-row items-center justify-center">
@@ -75,7 +74,7 @@
         {% include 'components/credits.html' %}
     </div>
 </div>
-<main class="flex flex-col gap-2 items-center min-h-screen justify-center w-full h-full bg-neutral-100 shadow-lg relative">
+<main class="flex flex-col gap-2 items-center min-h-screen justify-center w-full h-full bg-neutral-100 md:shadow-lg relative">
 
     <div class="absolute top-0 right-2 md:p-2">
         <label for="language" class="block text-sm font-medium leading-6 text-gray-900 sr-only">Language</label>
@@ -116,13 +115,13 @@
                 </div>
 
                 <div class="flex gap-2">
-                    <button id="download-button" class="btn-fill group">
-                        <i class="material-icons text-sm group-hover:animate-ping">download</i>
+                    <button id="download-button" class="btn-primary md:btn-fill group">
+                        <i class="material-icons text-sm">download</i>
                         <span class="custom-loader hidden"></span>
                         <span>Download</span>
                     </button>
                     <button id="copy-button" class="hidden md:flex btn-primary group">
-                        <i class="material-icons text-sm group-hover:animate-ping">content_copy</i>
+                        <i class="material-icons text-sm">content_copy</i>
                         <span class="custom-loader hidden"></span>
                         <span>Clipboard</span>
                     </button>
