@@ -200,14 +200,18 @@
                         <h2 class="text-xl font-bold">Theme</h2>
                         <div class="flex gap-2">
                             <button class="btn-outline group px-4 py-2"
-                                    :class="settings.darkMode ? 'bg-neutral-100' : 'bg-gray-600 hover:bg-gray-600'"
+                                    :class="settings.darkMode && 'bg-gray-300'"
+                                    :disabled="settings.darkMode"
                                     @click="settings.darkMode = !settings.darkMode">
-                                <i class="material-icons transition-transform duration-200 ease-in-out group-hover:-rotate-45">light_mode</i>
+                                <i class="material-icons transition-transform duration-200 ease-in-out"
+                                   :class="!settings.darkMode && 'group-hover:-rotate-45'">light_mode</i>
                             </button>
                             <button class="btn-outline group px-4 py-2"
-                                    :class="settings.darkMode ? 'bg-gray-600 hover:bg-gray-600' : 'bg-neutral-100'"
+                                    :class="!settings.darkMode && 'bg-gray-300'"
+                                    :disabled="!settings.darkMode"
                                     @click="settings.darkMode = !settings.darkMode">
-                                <i class="material-icons transition-transform duration-200 ease-in-out group-hover:-rotate-45">dark_mode</i>
+                                <i class="material-icons transition-transform duration-200 ease-in-out"
+                                   :class="settings.darkMode && 'group-hover:-rotate-45'">dark_mode</i>
                             </button>
                         </div>
                     </div>

@@ -92,7 +92,12 @@
     }
 
     .btn-outline {
-        @apply border text-typo-900 border-gray-200 dark:border-gray-600 dark:hover:bg-gray-700 hover:bg-gray-100 rounded-md p-1 flex items-center justify-center;
+        @apply border text-typo-900 border-gray-200 dark:border-gray-600 dark:hover:bg-gray-700 hover:bg-gray-200 rounded-md p-1 flex items-center justify-center;
+    }
+
+    /* CSS For disabled button */
+    .btn-outline:disabled {
+        @apply dark:bg-gray-600 bg-gray-300 text-gray-500 dark:text-gray-400 cursor-not-allowed;
     }
 
     .link {
