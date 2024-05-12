@@ -99,7 +99,6 @@ document.addEventListener('DOMContentLoaded', function () {
             .replace(/^-+|-+$/g, '');
     }
 
-
     function removeAttributes() {
         const originalAttributes = [];
         attributesToRemove.forEach(selector => {
@@ -167,7 +166,6 @@ function simplifyNumber(value) {
 
     return `${Number(number.toFixed(1))}${suffixes[suffixNum]}`;
 }
-
 
 document.addEventListener('alpine:init', () => {
     Alpine.data('youtubeConfig', () => ({

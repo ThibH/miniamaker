@@ -32,42 +32,11 @@
 </head>
 <body x-data="youtubeConfig">
 
-<script type="text/javascript">
-    (function (window, document, dataLayerName, id) {
-        window[dataLayerName] = window[dataLayerName] || [], window[dataLayerName].push({start: (new Date).getTime(), event: "stg.start"});
-        var scripts = document.getElementsByTagName('script')[0], tags = document.createElement('script');
-
-        function stgCreateCookie(a, b, c) {
-            var d = "";
-            if (c) {
-                var e = new Date;
-                e.setTime(e.getTime() + 24 * c * 60 * 60 * 1e3), d = "; expires=" + e.toUTCString();
-                f = "; SameSite=Strict"
-            }
-            document.cookie = a + "=" + b + d + f + "; path=/"
-        }
-
-        var isStgDebug = (window.location.href.match("stg_debug") || document.cookie.match("stg_debug")) && !window.location.href.match("stg_disable_debug");
-        stgCreateCookie("stg_debug", isStgDebug ? 1 : "", isStgDebug ? 14 : -1);
-        var qP = [];
-        dataLayerName !== "dataLayer" && qP.push("data_layer_name=" + dataLayerName), isStgDebug && qP.push("stg_debug");
-        var qPString = qP.length > 0 ? ("?" + qP.join("&")) : "";
-        tags.async = !0, tags.src = "https://docstring.containers.piwik.pro/" + id + ".js" + qPString, scripts.parentNode.insertBefore(tags, scripts);
-        !function (a, n, i) {
-            a[n] = a[n] || {};
-            for (var c = 0; c < i.length; c++) !function (i) {
-                a[n][i] = a[n][i] || {}, a[n][i].api = a[n][i].api || function () {
-                    var a = [].slice.call(arguments, 0);
-                    "string" == typeof a[0] && window[dataLayerName].push({event: n + "." + i + ":" + a[0], parameters: [].slice.call(arguments, 1)})
-                }
-            }(i[c])
-        }(window, "ppms", ["tm", "cm"]);
-    })(window, document, 'dataLayer', 'ddea9094-6d09-49a5-9eee-8ca4a1ed4a6b');
-</script>
-
 <div class="dark:bg-neutral-900 flex flex-col 2xl:flex-row items-stretch justify-center"
      :class="darkMode && 'dark'"
      id="main-section">
+
+    <!-- HEADER -->
     <header class="flex justify-center bg-neutral-100 flex-col items-center py-2 md:py-10 gap-8">
         <a href="/">
             <h1 class="text-2xl text-typo-900 xl:text-5xl text-center font-bold">YouTube Card Generator</h1>
@@ -76,14 +45,18 @@
             {% include 'components/credits.html' %}
         </div>
     </header>
+
+    <!-- MAIN -->
     <main class="flex flex-col gap-2 items-center min-h-screen justify-center w-full h-full bg-gray-100 dark:bg-neutral-500 md:shadow-lg relative">
         <div class="mt-2 absolute top-0 right-2 md:p-2 flex gap-2 items-center">
 
+            <!-- Dark mode swith -->
             <button @click="toggleAppearance" class="btn-outline">
                 <i x-show="darkMode" class="material-icons transition-transform duration-200 ease-in-out group-hover:-rotate-45">light_mode</i>
                 <i x-show="!darkMode" class="material-icons transition-transform duration-200 ease-in-out group-hover:-rotate-45">dark_mode</i>
             </button>
 
+            <!-- Language selection -->
             <label for="language" class="block text-sm font-medium leading-6 text-gray-900 sr-only">Language</label>
             <select id="language" name="language"
                     x-model="settings.language"
@@ -104,9 +77,11 @@
             </p>
 
             <div class="pt-12 md:pt-0 flex flex-col w-full xl:flex-row gap-4 flex-1">
-                <!-- YOUTUBE CARD -->
+
+                <!-- Card section -->
                 <section class="flex-1 p-2 xl:p-12 rounded checker-background flex flex-col gap-4 items-center justify-center">
 
+                    <!-- YouTube Card -->
                     <div class="relative h-full flex justify-center items-center" id="loading-placeholder">
                         {% include 'components/card.html' %}
                         <div
@@ -121,6 +96,7 @@
                         </div>
                     </div>
 
+                    <!-- Download and copy to clipboard buttons -->
                     <div class="flex gap-2">
                         <button id="download-button" class="btn-primary md:btn-fill group">
                             <i class="material-icons text-sm">download</i>
@@ -135,10 +111,11 @@
                     </div>
                 </section>
 
-                <!-- SETTINGS -->
+                <!-- Settings section -->
                 <aside class="p-2 md:p-8 flex flex-col gap-2 md:gap-8 border border-gray-100 dark:border-gray-600 rounded shadow-lg divide-y divide-gray-200 dark:divide-gray-600">
                     <div class="flex flex-col gap-2">
                         <h2 class="hidden md:inline text-3xl font-bold">Settings</h2>
+                        <!-- YouTube URL Input -->
                         <label class="block text-sm font-medium mb-1" for="video_url">YouTube URL
                             <input type="text"
                                    hx-trigger="fetchCard from:body"
@@ -157,6 +134,7 @@
                         </label>
                     </div>
 
+                    <!-- UI Elements Checkboxes -->
                     <div class="flex flex-col pt-4">
                         <h2 class="hidden md:inline text-xl font-bold">UI Elements</h2>
                         <template x-for="(checkbox, index) in settings.checkboxes" :key="index">
@@ -169,6 +147,8 @@
                             </label>
                         </template>
                     </div>
+
+                    <!-- Styling Sliders -->
                     <div class="flex flex-col gap-1 pt-4">
                         <div class="flex justify-between">
                             <h2 class="text-xl font-bold">Styling</h2>
@@ -196,6 +176,8 @@
                             </label>
                         </template>
                     </div>
+
+                    <!-- Theme -->
                     <div class="flex justify-between gap-2 pt-4">
                         <h2 class="text-xl font-bold">Theme</h2>
                         <div class="flex gap-2">
@@ -215,6 +197,8 @@
                             </button>
                         </div>
                     </div>
+
+                    <!-- Export Options -->
                     <div class="flex flex-col justify-between gap-2 pt-4">
                         <h2 class="text-xl font-bold">Export size</h2>
                         <label class="flex items-center justify-between gap-2">
@@ -239,6 +223,7 @@
         </div>
     </main>
 
+    <!-- Credits -->
     <footer class="xl:hidden p-4">
         {% include 'components/credits.html' %}
     </footer>

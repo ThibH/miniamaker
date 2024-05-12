@@ -3,29 +3,28 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Roboto'), local('Roboto-Regular'),
-       url('../../../fonts/Roboto-Regular.ttf') format('truetype');
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Roboto'), local('Roboto-Regular'),
+    url('../../../fonts/Roboto-Regular.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 500;
-  src: local('Roboto Medium'), local('Roboto-Medium'),
-       url('../../../fonts/Roboto-Medium.ttf') format('truetype');
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    src: local('Roboto Medium'), local('Roboto-Medium'),
+    url('../../../fonts/Roboto-Medium.ttf') format('truetype');
 }
 
 @font-face {
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 700;
-  src: local('Roboto Bold'), local('Roboto-Bold'),
-       url('../../../fonts/Roboto-Bold.ttf') format('truetype');
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Roboto Bold'), local('Roboto-Bold'),
+    url('../../../fonts/Roboto-Bold.ttf') format('truetype');
 }
-
 
 
 @layer base {
@@ -118,10 +117,6 @@
 }
 
 .htmx-request .htmx-indicator {
-    opacity: 1
-}
-
-.htmx-request.htmx-indicator {
     opacity: 1
 }
 
